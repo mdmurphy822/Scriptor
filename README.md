@@ -8,7 +8,9 @@
 ![Rust](https://img.shields.io/badge/rust-1.85%2B-orange?logo=rust)
 ![Platform](https://img.shields.io/badge/platform-Linux%20ARM64%20%7C%20NVIDIA%20GB10-lightgrey)
 
-**[Project page](https://chironcourseworks.com/scriptor)** • [Quick start](#quick-start) • [Install](docs/install.md) • [OCR bridge](docs/bridge.md) • [Benchmark](docs/benchmark.md) • [Documentation](#documentation) • [Contributing](#contributing) • [License](#license) • [Languages](docs/languages.md)
+**[Project page](https://chironcourseworks.com/scriptor)** • [Quick start](#quick-start) • [Install](docs/install.md) • [OCR bridge](docs/bridge.md) • [Benchmark](docs/benchmark.md) • [Documentation](#documentation) • [Contributing](#contributing) • [License](#license)
+
+**English** • [简体中文](docs/i18n/README.zh-CN.md) • [हिन्दी](docs/i18n/README.hi.md) • [العربية](docs/i18n/README.ar.md) • [বাংলা](docs/i18n/README.bn.md) • [日本語](docs/i18n/README.ja.md) • [한국어](docs/i18n/README.ko.md) • [Español (España)](docs/i18n/README.es.md) • [Español (Latinoamérica)](docs/i18n/README.es-419.md) • [Português (Brasil)](docs/i18n/README.pt-BR.md) • [Português (Portugal)](docs/i18n/README.pt-PT.md) • [Français](docs/i18n/README.fr.md) • [Deutsch](docs/i18n/README.de.md) • [Italiano](docs/i18n/README.it.md) • [Nederlands](docs/i18n/README.nl.md) • [Polski](docs/i18n/README.pl.md) • [Български](docs/i18n/README.bg.md) • [Hrvatski](docs/i18n/README.hr.md) • [Čeština](docs/i18n/README.cs.md) • [Dansk](docs/i18n/README.da.md) • [Eesti](docs/i18n/README.et.md) • [Suomi](docs/i18n/README.fi.md) • [Ελληνικά](docs/i18n/README.el.md) • [Magyar](docs/i18n/README.hu.md) • [Gaeilge](docs/i18n/README.ga.md) • [Latviešu](docs/i18n/README.lv.md) • [Lietuvių](docs/i18n/README.lt.md) • [Malti](docs/i18n/README.mt.md) • [Română](docs/i18n/README.ro.md) • [Slovenčina](docs/i18n/README.sk.md) • [Slovenščina](docs/i18n/README.sl.md) • [Svenska](docs/i18n/README.sv.md) • [Русский](docs/i18n/README.ru.md) • [Українська](docs/i18n/README.uk.md) • [Norsk bokmål](docs/i18n/README.nb.md) • [Српски](docs/i18n/README.sr.md) • [Català](docs/i18n/README.ca.md) • [Türkçe](docs/i18n/README.tr.md)
 
 </div>
 
