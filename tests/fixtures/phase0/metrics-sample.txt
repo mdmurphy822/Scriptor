@@ -1,0 +1,39 @@
+# Synthetic two-snapshot sample in vLLM Prometheus text format.
+# Snapshot "pre" is taken before the sweep, snapshot "post" after it.
+# --- snapshot pre ---
+# HELP python_gc_objects_collected_total Objects collected during gc
+python_gc_objects_collected_total{generation="0"} 1000.0
+vllm:num_requests_running{engine="0",model_name="glm-ocr"} 0.0
+vllm:num_requests_waiting{engine="0",model_name="glm-ocr"} 0.0
+vllm:kv_cache_usage_perc{engine="0",model_name="glm-ocr"} 0.0
+vllm:prompt_tokens_total{engine="0",model_name="glm-ocr"} 1000.0
+vllm:generation_tokens_total{engine="0",model_name="glm-ocr"} 200.0
+vllm:iteration_tokens_total_count{engine="0",model_name="glm-ocr"} 40.0
+vllm:iteration_tokens_total_sum{engine="0",model_name="glm-ocr"} 1200.0
+vllm:request_prefill_time_seconds_count{engine="0",model_name="glm-ocr"} 10.0
+vllm:request_prefill_time_seconds_sum{engine="0",model_name="glm-ocr"} 1.5
+vllm:request_decode_time_seconds_count{engine="0",model_name="glm-ocr"} 10.0
+vllm:request_decode_time_seconds_sum{engine="0",model_name="glm-ocr"} 20.0
+vllm:spec_decode_num_drafts_total{engine="0",model_name="glm-ocr"} 100.0
+vllm:spec_decode_num_draft_tokens_total{engine="0",model_name="glm-ocr"} 100.0
+vllm:spec_decode_num_accepted_tokens_total{engine="0",model_name="glm-ocr"} 60.0
+vllm:spec_decode_num_accepted_tokens_per_pos_total{engine="0",model_name="glm-ocr",position="0"} 60.0
+# --- snapshot post ---
+# HELP python_gc_objects_collected_total Objects collected during gc
+python_gc_objects_collected_total{generation="0"} 9000.0
+vllm:num_requests_running{engine="0",model_name="glm-ocr"} 0.0
+vllm:num_requests_waiting{engine="0",model_name="glm-ocr"} 0.0
+vllm:kv_cache_usage_perc{engine="0",model_name="glm-ocr"} 0.0
+vllm:prompt_tokens_total{engine="0",model_name="glm-ocr"} 251000.0
+vllm:generation_tokens_total{engine="0",model_name="glm-ocr"} 52200.0
+vllm:iteration_tokens_total_count{engine="0",model_name="glm-ocr"} 2040.0
+vllm:iteration_tokens_total_sum{engine="0",model_name="glm-ocr"} 303200.0
+vllm:request_prefill_time_seconds_count{engine="0",model_name="glm-ocr"} 1010.0
+vllm:request_prefill_time_seconds_sum{engine="0",model_name="glm-ocr"} 151.5
+vllm:request_decode_time_seconds_count{engine="0",model_name="glm-ocr"} 1010.0
+vllm:request_decode_time_seconds_sum{engine="0",model_name="glm-ocr"} 2820.0
+vllm:spec_decode_num_drafts_total{engine="0",model_name="glm-ocr"} 20100.0
+vllm:spec_decode_num_draft_tokens_total{engine="0",model_name="glm-ocr"} 40100.0
+vllm:spec_decode_num_accepted_tokens_total{engine="0",model_name="glm-ocr"} 26060.0
+vllm:spec_decode_num_accepted_tokens_per_pos_total{engine="0",model_name="glm-ocr",position="0"} 16060.0
+vllm:spec_decode_num_accepted_tokens_per_pos_total{engine="0",model_name="glm-ocr",position="1"} 10000.0

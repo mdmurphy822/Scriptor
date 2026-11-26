@@ -1,0 +1,21 @@
+{
+ "name": "semantik_text",
+ "messages": [
+  {
+   "role": "user",
+   "content": [
+    {
+     "type": "image"
+    },
+    {
+     "type": "text",
+     "text": "Text Recognition:"
+    }
+   ]
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": true
+ },
+ "rendered": "[gMASK]<sop><|user|>\n<|begin_of_image|><|image|><|end_of_image|>Text Recognition:<|assistant|>\n"
+}

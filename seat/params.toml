@@ -1,0 +1,28 @@
+# Parameters of the scriptor seat template. Every `{{name}}` placeholder in
+# the seat scripts resolves from this table. Values match [A-Za-z0-9._:/@+=,-];
+# an empty value selects the behaviour noted beside it.
+
+# Path to the scriptor binary.
+binary = ""
+# Checkpoint snapshot directory holding config.json and the tokenizer files.
+model_dir = ""
+# Engine-native weights file; empty converts the checkpoint into cache_dir on first start.
+engine_file = ""
+# Model name exposed by /v1/models and accepted in requests.
+served_name = "glm-ocr"
+# Loopback port.
+port = "8002"
+# Fraction of device memory the engine may use.
+gpu_memory_utilization = "0.60"
+# Concurrent sequences; empty derives the largest count whose slots can each hold a full context within the memory share.
+max_num_seqs = ""
+# Context length.
+max_model_len = "16384"
+# Image pixel ceiling; empty uses the model default.
+max_pixels = ""
+# Speculative draft tokens per step; 0 disables speculation.
+speculative_tokens = "0"
+# Directory for converted engine files and kernel tuning; empty uses $XDG_CACHE_HOME/semantik/seat-cache/scriptor.
+cache_dir = ""
+# Directory holding the pid file and the log.
+state_dir = ""

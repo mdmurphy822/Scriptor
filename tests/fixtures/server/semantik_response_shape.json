@@ -1,0 +1,26 @@
+{
+  "required_paths": [
+    "/choices/0/message/content",
+    "/choices/0/finish_reason",
+    "/usage/prompt_tokens",
+    "/usage/completion_tokens",
+    "/usage/total_tokens"
+  ],
+  "required_metrics": [
+    "vllm:num_requests_running",
+    "vllm:num_requests_waiting",
+    "vllm:kv_cache_usage_perc",
+    "vllm:prompt_tokens_total",
+    "vllm:generation_tokens_total",
+    "vllm:request_prefill_time_seconds_sum",
+    "vllm:request_decode_time_seconds_sum",
+    "vllm:iteration_tokens_total_count",
+    "vllm:spec_decode_num_draft_tokens_total",
+    "vllm:spec_decode_num_accepted_tokens_total",
+    "vllm:spec_decode_num_accepted_tokens_per_pos_total",
+    "scriptor_vision_batch_size_count",
+    "scriptor_embedding_cache_hits_total",
+    "scriptor_preemptions_total",
+    "scriptor_step_time_seconds_count"
+  ]
+}

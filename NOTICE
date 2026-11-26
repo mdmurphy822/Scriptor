@@ -1,0 +1,8 @@
+Scriptor
+Copyright 2026 Matthew D. Murphy
+
+Dual-licensed under AGPL-3.0-only or a commercial license (see LICENSE and
+COMMERCIAL-LICENSE.md).
+
+Third-party components keep their own licenses; they are listed in
+docs/third-party-notices.md. Models are not bundled; each keeps its own license.

@@ -1,0 +1,24 @@
+# Optional systemd user unit. Run the rendered start and stop scripts; replace
+# the placeholder paths before use.
+[Unit]
+Description=scriptor seat
+After=default.target
+
+[Service]
+Type=forking
+PIDFile=/path/to/state/scriptor.pid
+ExecStart=/path/to/rendered/ocr.start.sh
+ExecStop=/path/to/rendered/ocr.stop.sh
+KillSignal=SIGTERM
+# Drain deadline: the longest in-flight request (max_model_len tokens) divided by the seat's
+# measured decode rate, times a 1.5 margin, plus one prefill pass. For a 16384-token context at
+# 100 tokens/s that is 16384 / 100 * 1.5 + 10 = 256 seconds; recompute it for the deployed
+# context and measured rate.
+TimeoutStopSec=256
+# Restart after a device fault (exit 75) or an internal failure (exit 70) but never after a
+# refused configuration (exit 78).
+Restart=on-failure
+RestartPreventExitStatus=78
+
+[Install]
+WantedBy=default.target

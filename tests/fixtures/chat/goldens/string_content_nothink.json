@@ -1,0 +1,14 @@
+{
+ "name": "string_content_nothink",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Hello there"
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": true,
+  "enable_thinking": false
+ },
+ "rendered": "[gMASK]<sop><|user|>\nHello there/nothink<|assistant|>\n<think></think>\n"
+}

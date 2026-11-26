@@ -1,0 +1,26 @@
+{
+ "name": "assistant_reasoning",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Think"
+  },
+  {
+   "role": "assistant",
+   "content": "<think>\nstep one\n</think>\nfinal words"
+  },
+  {
+   "role": "user",
+   "content": "More"
+  },
+  {
+   "role": "assistant",
+   "content": "ok",
+   "reasoning_content": " kept reasoning "
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": false
+ },
+ "rendered": "[gMASK]<sop><|user|>\nThink<|assistant|>\n<think></think>\nfinal words<|user|>\nMore<|assistant|>\n<think>kept reasoning</think>\nok"
+}

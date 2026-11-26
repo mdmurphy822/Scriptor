@@ -1,0 +1,13 @@
+{
+ "name": "string_content",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Hello there"
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": true
+ },
+ "rendered": "[gMASK]<sop><|user|>\nHello there<|assistant|>\n"
+}

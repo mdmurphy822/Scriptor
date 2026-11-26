@@ -1,0 +1,164 @@
+{
+  "regions": [
+    {
+      "id": "syn-00-lines-112x112",
+      "kind": "lines",
+      "task": "text",
+      "width": 112,
+      "height": 112,
+      "seed": 1000
+    },
+    {
+      "id": "syn-01-lines-100x40",
+      "kind": "lines",
+      "task": "text",
+      "width": 100,
+      "height": 40,
+      "seed": 1001
+    },
+    {
+      "id": "syn-02-lines-280x84",
+      "kind": "lines",
+      "task": "text",
+      "width": 280,
+      "height": 84,
+      "seed": 1002
+    },
+    {
+      "id": "syn-03-lines-336x168",
+      "kind": "lines",
+      "task": "text",
+      "width": 336,
+      "height": 168,
+      "seed": 1003
+    },
+    {
+      "id": "syn-04-lines-421x113",
+      "kind": "lines",
+      "task": "text",
+      "width": 421,
+      "height": 113,
+      "seed": 1004
+    },
+    {
+      "id": "syn-05-lines-448x420",
+      "kind": "lines",
+      "task": "text",
+      "width": 448,
+      "height": 420,
+      "seed": 1005
+    },
+    {
+      "id": "syn-06-lines-777x333",
+      "kind": "lines",
+      "task": "text",
+      "width": 777,
+      "height": 333,
+      "seed": 1006
+    },
+    {
+      "id": "syn-07-lines-1000x60",
+      "kind": "lines",
+      "task": "text",
+      "width": 1000,
+      "height": 60,
+      "seed": 1007
+    },
+    {
+      "id": "syn-08-lines-560x560",
+      "kind": "lines",
+      "task": "text",
+      "width": 560,
+      "height": 560,
+      "seed": 1008
+    },
+    {
+      "id": "syn-09-lines-900x700",
+      "kind": "lines",
+      "task": "text",
+      "width": 900,
+      "height": 700,
+      "seed": 1009
+    },
+    {
+      "id": "syn-10-lines-1400x280",
+      "kind": "lines",
+      "task": "text",
+      "width": 1400,
+      "height": 280,
+      "seed": 1010
+    },
+    {
+      "id": "syn-11-table-448x336",
+      "kind": "table",
+      "task": "table",
+      "width": 448,
+      "height": 336,
+      "seed": 1011
+    },
+    {
+      "id": "syn-12-table-640x480",
+      "kind": "table",
+      "task": "table",
+      "width": 640,
+      "height": 480,
+      "seed": 1012
+    },
+    {
+      "id": "syn-13-table-833x517",
+      "kind": "table",
+      "task": "table",
+      "width": 833,
+      "height": 517,
+      "seed": 1013
+    },
+    {
+      "id": "syn-14-table-1120x840",
+      "kind": "table",
+      "task": "table",
+      "width": 1120,
+      "height": 840,
+      "seed": 1014
+    },
+    {
+      "id": "syn-15-formula-224x84",
+      "kind": "formula",
+      "task": "formula",
+      "width": 224,
+      "height": 84,
+      "seed": 1015
+    },
+    {
+      "id": "syn-16-formula-350x120",
+      "kind": "formula",
+      "task": "formula",
+      "width": 350,
+      "height": 120,
+      "seed": 1016
+    },
+    {
+      "id": "syn-17-formula-560x112",
+      "kind": "formula",
+      "task": "formula",
+      "width": 560,
+      "height": 112,
+      "seed": 1017
+    },
+    {
+      "id": "syn-18-formula-700x196",
+      "kind": "formula",
+      "task": "formula",
+      "width": 700,
+      "height": 196,
+      "seed": 1018
+    },
+    {
+      "id": "syn-19-lines-2100x2240",
+      "kind": "lines",
+      "task": "text",
+      "width": 2100,
+      "height": 2240,
+      "seed": 1019
+    }
+  ]
+}

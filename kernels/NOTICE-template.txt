@@ -1,0 +1,15 @@
+// ---------------------------------------------------------------------------
+// Adapted from an upstream project. Keep this header on every adapted file.
+//
+// Origin:        <upstream project, repository URL, file path>
+// Origin rev:    <upstream tag or commit>
+// License:       <SPDX identifier of the upstream license>
+// Upstream notice:
+//   <verbatim upstream copyright and license notice>
+//
+// Modifications:
+//   <summary of every change made relative to the origin file>
+//
+// Distributed here under AGPL-3.0-only for the modifications; the upstream
+// portions remain under the license named above.
+// ---------------------------------------------------------------------------

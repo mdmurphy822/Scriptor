@@ -1,0 +1,21 @@
+{
+ "name": "assistant_history",
+ "messages": [
+  {
+   "role": "user",
+   "content": "First"
+  },
+  {
+   "role": "assistant",
+   "content": "Answer one"
+  },
+  {
+   "role": "user",
+   "content": "Second"
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": true
+ },
+ "rendered": "[gMASK]<sop><|user|>\nFirst<|assistant|>\n<think></think>\nAnswer one<|user|>\nSecond<|assistant|>\n"
+}

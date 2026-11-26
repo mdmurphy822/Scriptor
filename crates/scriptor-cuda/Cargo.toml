@@ -1,0 +1,17 @@
+[package]
+name = "scriptor-cuda"
+description = "CUDA device detection, memory arena, graphs and module loading."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+cuda = ["dep:cudarc"]
+
+[dependencies]
+cudarc = { version = "0.19", optional = true, default-features = false, features = ["std", "driver", "nvrtc", "cuda-13000", "cublaslt", "dynamic-loading"] }

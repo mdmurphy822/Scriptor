@@ -1,0 +1,57 @@
+{
+ "name": "tool_round_trip",
+ "messages": [
+  {
+   "role": "user",
+   "content": "Find it"
+  },
+  {
+   "role": "assistant",
+   "content": "",
+   "tool_calls": [
+    {
+     "type": "function",
+     "function": {
+      "name": "lookup",
+      "arguments": {
+       "term": "café",
+       "limit": 3
+      }
+     }
+    }
+   ]
+  },
+  {
+   "role": "tool",
+   "content": "result one"
+  },
+  {
+   "role": "tool",
+   "content": "result two"
+  }
+ ],
+ "kwargs": {
+  "add_generation_prompt": true,
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "lookup",
+     "description": "Looks up a term",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "term": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "term"
+      ]
+     }
+    }
+   }
+  ]
+ },
+ "rendered": "[gMASK]<sop><|system|>\n# Tools\n\nYou may call one or more functions to assist with the user query.\n\nYou are provided with function signatures within <tools></tools> XML tags:\n<tools>\n{\"type\": \"function\", \"function\": {\"name\": \"lookup\", \"description\": \"Looks up a term\", \"parameters\": {\"type\": \"object\", \"properties\": {\"term\": {\"type\": \"string\"}}, \"required\": [\"term\"]}}}\n</tools>\n\nFor each function call, output the function name and arguments within the following XML format:\n<tool_call>{function-name}\n<arg_key>{arg-key-1}</arg_key>\n<arg_value>{arg-value-1}</arg_value>\n<arg_key>{arg-key-2}</arg_key>\n<arg_value>{arg-value-2}</arg_value>\n...\n</tool_call><|user|>\nFind it<|assistant|>\n<think></think>\n<tool_call>lookup\n<arg_key>term</arg_key>\n<arg_value>café</arg_value>\n<arg_key>limit</arg_key>\n<arg_value>3</arg_value>\n</tool_call><|observation|>\n<tool_response>\nresult one\n</tool_response>\n\n<tool_response>\nresult two\n</tool_response>\n<|assistant|>\n"
+}

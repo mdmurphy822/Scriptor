@@ -1,0 +1,51 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/scriptor-spec",
+    "crates/scriptor-cuda",
+    "crates/scriptor-kernels",
+    "crates/scriptor-weights",
+    "crates/scriptor-model",
+    "crates/scriptor-cache",
+    "crates/scriptor-engine",
+    "crates/scriptor-chat",
+    "crates/scriptor-server",
+    "crates/scriptor-bench",
+    "crates/scriptor-image",
+    "crates/scriptor-cli",
+    "crates/scriptor-layout",
+    "crates/scriptor-bridge",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-only OR LicenseRef-Commercial"
+publish = false
+
+[workspace.dependencies]
+anyhow = "1.0"
+clap = { version = "4", features = ["derive"] }
+hayro = "0.8"
+ort = { version = "=2.0.0-rc.13", default-features = false, features = ["std", "load-dynamic", "cuda", "api-27"] }
+regex = "1.11"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+scriptor-layout = { path = "crates/scriptor-layout" }
+serde = { version = "1", features = ["derive"] }
+
+[workspace.lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+# Faster GPU-test builds: no LTO, parallel codegen, incremental.
+[profile.gpu-test]
+inherits = "release"
+lto = false
+codegen-units = 16
+incremental = true

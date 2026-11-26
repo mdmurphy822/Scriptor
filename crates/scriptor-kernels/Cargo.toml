@@ -1,0 +1,29 @@
+[package]
+name = "scriptor-kernels"
+description = "CUDA kernels, launch wrappers and CPU reference implementations."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+default = []
+# GPU JPEG decode through a runtime-loaded libnvjpeg; off by default.
+nvjpeg = ["dep:libloading", "dep:scriptor-image"]
+cuda = ["dep:scriptor-cuda", "dep:cudarc", "scriptor-cuda/cuda"]
+
+[dependencies]
+half = "2"
+libloading = { version = "0.9", optional = true }
+scriptor-image = { path = "../scriptor-image", optional = true }
+scriptor-cuda = { path = "../scriptor-cuda", optional = true }
+cudarc = { version = "0.19", optional = true, default-features = false, features = ["std", "driver", "nvrtc", "cuda-13000", "cublaslt", "dynamic-loading"] }
+
+[dev-dependencies]
+scriptor-image = { path = "../scriptor-image" }
+
+[build-dependencies]
+sha2 = "0.10"

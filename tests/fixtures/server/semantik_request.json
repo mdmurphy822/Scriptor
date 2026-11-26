@@ -1,0 +1,20 @@
+{
+  "model": "glm-ocr",
+  "messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "image_url",
+          "image_url": {"url": "data:image/jpeg;base64,AA=="}
+        },
+        {"type": "text", "text": "Text Recognition:"}
+      ]
+    }
+  ],
+  "temperature": 0.0,
+  "top_p": 1e-05,
+  "top_k": 1,
+  "repetition_penalty": 1.1,
+  "max_tokens": 8192
+}

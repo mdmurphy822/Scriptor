@@ -1,0 +1,45 @@
+[package]
+name = "scriptor-cli"
+description = "The scriptor command-line interface."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "scriptor"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[features]
+default = ["cuda"]
+cuda = [
+    "dep:cudarc",
+    "dep:scriptor-cuda",
+    "scriptor-model/cuda",
+    "scriptor-kernels/cuda",
+    "scriptor-cuda/cuda",
+]
+kv-demand-diagnostic = ["scriptor-engine/kv-demand-diagnostic", "scriptor-server/kv-demand-diagnostic"]
+
+[dependencies]
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "tokio"] }
+clap.workspace = true
+cudarc = { version = "0.19", optional = true, default-features = false, features = ["std", "driver", "nvrtc", "cuda-13000", "cublaslt", "dynamic-loading"] }
+half = "2"
+libc = "0.2"
+scriptor-bridge = { path = "../scriptor-bridge" }
+scriptor-cache = { path = "../scriptor-cache" }
+scriptor-chat = { path = "../scriptor-chat" }
+scriptor-cuda = { path = "../scriptor-cuda", optional = true }
+scriptor-engine = { path = "../scriptor-engine" }
+scriptor-image = { path = "../scriptor-image" }
+scriptor-kernels = { path = "../scriptor-kernels" }
+scriptor-model = { path = "../scriptor-model" }
+scriptor-server = { path = "../scriptor-server" }
+scriptor-spec = { path = "../scriptor-spec" }
+scriptor-weights = { path = "../scriptor-weights" }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync", "net", "time", "signal"] }

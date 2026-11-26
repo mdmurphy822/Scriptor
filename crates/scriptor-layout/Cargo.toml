@@ -1,0 +1,19 @@
+[package]
+name = "scriptor-layout"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+description = "Document layout detection contracts, preprocessing, decoding, and postprocessing for the Scriptor OCR bridge"
+
+[features]
+onnx = ["dep:ort", "dep:sha2"]
+
+[dependencies]
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp"] }
+ort = { workspace = true, optional = true }
+sha2 = { version = "0.10", optional = true }
+thiserror = "2"
+
+[lints]
+workspace = true

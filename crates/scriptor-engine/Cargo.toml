@@ -1,0 +1,22 @@
+[package]
+name = "scriptor-engine"
+description = "Scheduler, sampler, speculative decoding loop and readiness."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[features]
+kv-demand-diagnostic = ["scriptor-spec/kv-demand-diagnostic"]
+
+[dependencies]
+scriptor-cache = { path = "../scriptor-cache" }
+scriptor-kernels = { path = "../scriptor-kernels" }
+scriptor-spec = { path = "../scriptor-spec" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["sync"] }
