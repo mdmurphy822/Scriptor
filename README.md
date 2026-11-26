@@ -17,7 +17,7 @@
 ![Rust](https://img.shields.io/badge/rust-1.85%2B-orange?logo=rust)
 ![Platform](https://img.shields.io/badge/platform-Linux%20ARM64%20%7C%20NVIDIA%20GB10-lightgrey)
 
-**[Project page](https://chironcourseworks.com/scriptor)** • [Quick start](#quick-start) • [Install](docs/install.md) • [OCR bridge](docs/bridge.md) • [Benchmark](docs/benchmark.md) • [Documentation](#documentation) • [Contributing](#contributing) • [License](#license)
+**[Project page](https://chironcourseworks.com/scriptor)** • [Quick start](#quick-start) • [Install](docs/install.md) • [OCR bridge](docs/bridge.md) • [Benchmark](docs/benchmark.md) • [Documentation](#documentation) • [Contributing](#contributing) • [License](#license) • [Languages](docs/languages.md)
 
 </div>
 
@@ -94,6 +94,7 @@ Bounded intake, memory pressure tiers, supervised workers and exit codes a super
 - [seat/README.md](seat/README.md) — the seat template, readiness and drain contracts, exit codes and fault injection
 - [docs/phase0-protocol.md](docs/phase0-protocol.md) — the reference measurement protocol
 - [docs/third-party-notices.md](docs/third-party-notices.md) — third-party notices
+- [docs/languages.md](docs/languages.md) — this README in 38 languages
 
 ## Contributing
 
