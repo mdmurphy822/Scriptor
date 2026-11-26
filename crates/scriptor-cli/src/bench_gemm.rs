@@ -426,6 +426,21 @@ mod device {
     }
 }
 
+#[cfg(not(feature = "cuda"))]
+mod device {
+    use super::{GemmBenchArgs, TuneArgs};
+
+    /// Refuses: this build has no CUDA support.
+    pub fn run_bench(_: GemmBenchArgs) -> Result<i32, String> {
+        Err("this build has no CUDA support".into())
+    }
+
+    /// Refuses: this build has no CUDA support.
+    pub fn run_tune(_: TuneArgs) -> Result<i32, String> {
+        Err("this build has no CUDA support".into())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

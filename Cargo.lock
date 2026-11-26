@@ -2143,6 +2143,7 @@ dependencies = [
  "cudarc",
  "half",
  "libc",
+ "scriptor-bench",
  "scriptor-bridge",
  "scriptor-cache",
  "scriptor-chat",

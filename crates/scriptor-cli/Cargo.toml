@@ -30,6 +30,7 @@ clap.workspace = true
 cudarc = { version = "0.19", optional = true, default-features = false, features = ["std", "driver", "nvrtc", "cuda-13000", "cublaslt", "dynamic-loading"] }
 half = "2"
 libc = "0.2"
+scriptor-bench = { path = "../scriptor-bench" }
 scriptor-bridge = { path = "../scriptor-bridge" }
 scriptor-cache = { path = "../scriptor-cache" }
 scriptor-chat = { path = "../scriptor-chat" }

@@ -1,6 +1,8 @@
 //! The `scriptor` command-line interface.
 
 mod args;
+mod bench;
+mod bench_gemm;
 mod bridge;
 mod convert;
 #[cfg(feature = "cuda")]
@@ -19,6 +21,7 @@ mod gpu_executor;
 #[cfg(all(test, feature = "cuda"))]
 mod image_feed_tests;
 mod inspect;
+mod reference_dump;
 #[cfg(feature = "cuda")]
 mod seat_engine;
 #[cfg(feature = "cuda")]
@@ -69,10 +72,14 @@ fn main() {
         Command::Convert(a) => convert::run(&a),
         Command::Inspect(a) => inspect::run(&a),
         Command::Doctor(a) => doctor(&a),
-        Command::Bench | Command::Tune => {
-            eprintln!("scriptor: this subcommand is not implemented");
-            2
-        }
+        Command::Bench { command } => bench::run(command),
+        Command::Tune(a) => match bench_gemm::run_tune(a) {
+            Ok(code) => code,
+            Err(e) => {
+                eprintln!("scriptor tune: {e}");
+                2
+            }
+        },
     };
     std::process::exit(code);
 }

@@ -32,9 +32,12 @@ pub enum Command {
     /// Report device, memory-plan and cache diagnostics.
     Doctor(DoctorArgs),
     /// Run benchmarks and equivalence checks.
-    Bench,
+    Bench {
+        #[command(subcommand)]
+        command: crate::bench::BenchCommand,
+    },
     /// Tune GEMM kernels for the detected device.
-    Tune,
+    Tune(crate::bench_gemm::TuneArgs),
 }
 
 /// Arguments of `serve`. Every path is explicit; none has a default, and nothing is written to

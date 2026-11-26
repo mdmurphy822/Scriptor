@@ -1,5 +1,6 @@
-//! `scriptor bench compare|ladder|mock-seat|regions`: endpoint equivalence,
-//! throughput ladder, instant mock seat and region-set generation.
+//! `scriptor bench compare|ladder|mock-seat|regions|gemm|reference-dump`: endpoint
+//! equivalence, throughput ladder, instant mock seat, region-set generation, sustained GEMM
+//! throughput and the CPU reference dump.
 
 use std::net::SocketAddr;
 use std::path::{Path, PathBuf};
@@ -16,6 +17,9 @@ use scriptor_bench::regions::{
 use scriptor_bench::report;
 use scriptor_chat::Tokenizer;
 
+use crate::bench_gemm::{GemmBenchArgs, run_bench};
+use crate::reference_dump::{self, ReferenceDumpArgs};
+
 /// Equivalence and throughput subcommands of `bench`.
 #[derive(Subcommand, Debug)]
 pub enum BenchCommand {
@@ -27,6 +31,11 @@ pub enum BenchCommand {
     MockSeat(MockSeatArgs),
     /// Writes a region set to a directory.
     Regions(RegionsArgs),
+    /// Measures sustained GEMM throughput over the ViT and decoder shapes.
+    Gemm(GemmBenchArgs),
+    /// Runs the f32 CPU reference on a checkpoint and writes the greedy tokens with their top-2
+    /// logit margins.
+    ReferenceDump(ReferenceDumpArgs),
 }
 
 /// Arguments shared by the endpoint-driving subcommands.
@@ -228,18 +237,89 @@ fn run_regions(args: &RegionsArgs) -> Result<i32, String> {
 }
 
 /// Runs a `bench` subcommand; returns the process exit code.
-pub fn run(command: &BenchCommand) -> i32 {
+pub fn run(command: BenchCommand) -> i32 {
     let outcome = match command {
-        BenchCommand::Compare(a) => run_compare(a),
-        BenchCommand::Ladder(a) => run_ladder_cmd(a),
-        BenchCommand::MockSeat(a) => run_mock_seat(a),
-        BenchCommand::Regions(a) => run_regions(a),
+        BenchCommand::Compare(a) => run_compare(&a),
+        BenchCommand::Ladder(a) => run_ladder_cmd(&a),
+        BenchCommand::MockSeat(a) => run_mock_seat(&a),
+        BenchCommand::Regions(a) => run_regions(&a),
+        BenchCommand::Gemm(a) => run_bench(a),
+        BenchCommand::ReferenceDump(a) => reference_dump::run(&a)
+            .map(|()| 0)
+            .map_err(|e| e.to_string()),
     };
     match outcome {
         Ok(code) => code,
         Err(e) => {
             eprintln!("scriptor bench: {e}");
             2
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::args::{Cli, Command};
+    use clap::{CommandFactory, Parser};
+
+    fn bench(argv: &[&str]) -> BenchCommand {
+        let mut full = vec!["scriptor", "bench"];
+        full.extend_from_slice(argv);
+        match Cli::try_parse_from(full).unwrap().command {
+            Command::Bench { command } => command,
+            _ => panic!("expected bench"),
+        }
+    }
+
+    #[test]
+    fn the_command_tree_is_well_formed() {
+        Cli::command().debug_assert();
+    }
+
+    #[test]
+    fn bench_gemm_parses_its_dtype_and_row_counts() {
+        match bench(&["gemm", "--dtype", "fp8", "--m", "32,128"]) {
+            BenchCommand::Gemm(a) => {
+                assert_eq!(a.dtype, crate::bench_gemm::DtypeArg::Fp8);
+                assert_eq!(a.m, vec![32, 128]);
+            }
+            other => panic!("expected gemm, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn bench_regions_and_reference_dump_parse() {
+        assert!(matches!(
+            bench(&["regions", "--out", "d"]),
+            BenchCommand::Regions(_)
+        ));
+        assert!(matches!(
+            bench(&[
+                "reference-dump",
+                "--model-dir",
+                "m",
+                "--image",
+                "i.png",
+                "--prompt",
+                "Text Recognition:"
+            ]),
+            BenchCommand::ReferenceDump(_)
+        ));
+    }
+
+    #[test]
+    fn tune_requires_a_cache_dir_and_reads_it() {
+        assert!(Cli::try_parse_from(["scriptor", "tune"]).is_err());
+        match Cli::try_parse_from(["scriptor", "tune", "--cache-dir", "c", "--fp8"])
+            .unwrap()
+            .command
+        {
+            Command::Tune(a) => {
+                assert_eq!(a.cache_dir, std::path::PathBuf::from("c"));
+                assert!(a.fp8);
+            }
+            _ => panic!("expected tune"),
         }
     }
 }
