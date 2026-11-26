@@ -131,12 +131,6 @@ fn quarter_turns(a: f64, b: f64, c: f64, d: f64) -> Option<u8> {
     }
 }
 
-/// The usable text layer of one page.
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct PageTextLayer {
-    pub glyphs: Vec<TextGlyph>,
-}
-
 /// The parsed PDF `bytes`; `None` when they are not a readable PDF.
 pub fn open(bytes: &[u8]) -> Option<Pdf> {
     Pdf::new(Arc::new(bytes.to_vec())).ok()
@@ -279,21 +273,6 @@ fn collect(document: &Pdf, page_index: usize, scale: f64, keep_all: bool) -> Opt
         collector
     }))
     .ok()
-}
-
-/// The visible text glyphs of zero-based `page_index` of `document` in pixels
-/// of the page rendered at `dpi`, the space of OCR region boxes. `None` when
-/// the page is unreadable, draws no visible text, or draws more invisible
-/// text (an OCR layer over a scan) than visible text.
-pub fn page_text_layer(document: &Pdf, page_index: usize, dpi: f32) -> Option<PageTextLayer> {
-    if !dpi.is_finite() || dpi <= 0.0 {
-        return None;
-    }
-    let collected = collect(document, page_index, f64::from(dpi) / 72.0, false)?;
-    let visible = collected.glyphs.iter().filter(|glyph| !glyph.space).count();
-    (visible > 0 && visible > collected.invisible).then_some(PageTextLayer {
-        glyphs: collected.glyphs,
-    })
 }
 
 /// Every glyph a page draws, in drawing order, with whether each is upright.

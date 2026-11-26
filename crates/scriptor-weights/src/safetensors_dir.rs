@@ -21,10 +21,6 @@ pub struct TensorRef {
 }
 
 impl TensorRef {
-    pub fn num_elements(&self) -> usize {
-        self.shape.iter().product()
-    }
-
     pub fn byte_len(&self) -> u64 {
         self.end - self.start
     }

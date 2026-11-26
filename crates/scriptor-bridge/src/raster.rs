@@ -63,15 +63,6 @@ pub fn render_page(pdf: &[u8], page_index: usize, dpi: f32) -> Result<Raster> {
     render_loaded(&load(pdf)?, page_index, dpi)
 }
 
-/// Like [`render_page`] over shared document bytes that are parsed without
-/// being copied.
-pub fn render_page_shared(pdf: &Arc<Vec<u8>>, page_index: usize, dpi: f32) -> Result<Raster> {
-    if !dpi.is_finite() || dpi <= 0.0 {
-        bail!("render resolution must be a positive number");
-    }
-    render_loaded(&load_shared(Arc::clone(pdf))?, page_index, dpi)
-}
-
 fn render_loaded(document: &Pdf, page_index: usize, dpi: f32) -> Result<Raster> {
     let pages = document.pages();
     let Some(page) = pages.get(page_index) else {

@@ -473,13 +473,6 @@ impl ScriptedEngine {
         }
     }
 
-    /// Sets the prompt tokens contributed by text and by each image.
-    pub fn with_prompt_tokens(mut self, text_tokens: u64, image_tokens: u64) -> Self {
-        self.text_tokens = text_tokens;
-        self.image_tokens = image_tokens;
-        self
-    }
-
     /// Makes every finished stream report `stop_reason`.
     pub fn with_stop_reason(mut self, stop_reason: &str) -> Self {
         self.stop_reason = Some(stop_reason.to_owned());
@@ -494,11 +487,6 @@ impl ScriptedEngine {
     /// Marks the engine as stopped for good; `/health` then reports `dead`.
     pub fn set_dead(&self, dead: Dead) {
         *self.dead.lock().unwrap_or_else(|e| e.into_inner()) = Some(dead);
-    }
-
-    /// Sets the reported waiting-queue length.
-    pub fn set_waiting(&self, waiting: u64) {
-        self.waiting.store(waiting, Ordering::SeqCst);
     }
 
     /// Replaces the reported stages; when empty the stage list follows readiness.

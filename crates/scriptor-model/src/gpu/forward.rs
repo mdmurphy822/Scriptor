@@ -613,11 +613,6 @@ impl TextExecutor {
         }
     }
 
-    /// The selected pair-order mode.
-    pub fn pair_order_mode(&self) -> PairOrderMode {
-        self.pair_mode
-    }
-
     /// Directs every later launch to `stream`. Launch geometry, split plans and algorithm
     /// choices are unchanged.
     pub fn set_stream(&mut self, stream: &Arc<CudaStream>) {

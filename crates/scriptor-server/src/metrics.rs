@@ -158,13 +158,6 @@ impl Metrics {
         self.lock().rejected_busy += 1;
     }
 
-    /// Records one engine step: tokens processed and wall time in seconds.
-    pub fn observe_step(&self, tokens: u64, seconds: f64) {
-        let mut m = self.lock();
-        m.iteration_tokens.observe(tokens as f64);
-        m.step_time.observe(seconds);
-    }
-
     /// Renders the registry and an engine snapshot as Prometheus text.
     pub fn render(&self, model: &str, stats: &EngineStats) -> String {
         let m = self.lock();

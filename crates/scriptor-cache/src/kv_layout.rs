@@ -40,14 +40,4 @@ impl KvLayout {
     pub fn blocks_for_tokens(&self, tokens: usize) -> usize {
         tokens.div_ceil(self.block_tokens)
     }
-
-    /// Byte offset of a block within the main KV arena.
-    pub fn kv_offset(&self, block: u32) -> u64 {
-        block as u64 * self.kv_bytes_per_block
-    }
-
-    /// Byte offset of a block within the MTP KV arena.
-    pub fn mtp_kv_offset(&self, block: u32) -> u64 {
-        block as u64 * self.mtp_kv_bytes_per_block
-    }
 }

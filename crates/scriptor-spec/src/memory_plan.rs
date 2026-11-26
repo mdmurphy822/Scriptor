@@ -205,17 +205,6 @@ impl MemoryPlan {
 }
 
 impl MemoryPlan {
-    /// Bytes of buffers that scale with the slot count: logits, decode-step workspace and
-    /// captured graphs.
-    pub fn slot_buffer_bytes(&self) -> u64 {
-        self.logits_workspace + self.step_workspace + self.graph_memory
-    }
-
-    /// Bytes of the KV pool, target and draft layers together.
-    pub fn kv_pool_bytes(&self) -> u64 {
-        self.kv_cache + self.mtp_kv_cache
-    }
-
     /// Tokens the KV pool holds.
     pub fn kv_tokens(&self) -> u64 {
         self.kv_blocks * self.kv_block_tokens as u64

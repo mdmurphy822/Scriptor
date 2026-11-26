@@ -299,14 +299,6 @@ pub fn process_row(logits: &[f32], masks: &TokenMasks, params: &RowParams) -> Gr
     }
 }
 
-/// Penalties from plain id lists followed by argmax; the contract the bitset
-/// path must equal.
-pub fn greedy_from_ids(logits: &[f32], prompt: &[u32], output: &[u32], p: Penalties) -> GreedyPick {
-    let mut row = logits.to_vec();
-    apply_penalties(&mut row, prompt, output, p);
-    argmax_with_margin(&row)
-}
-
 /// Threads per block of a row kernel: the largest power of two (within the block limits) at
 /// which `rows` blocks are all resident at once on `sm_count` multiprocessors holding
 /// `threads_per_sm` threads each.

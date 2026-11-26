@@ -1622,15 +1622,6 @@ mod device {
             })
         }
 
-        /// Host copies of the activation, weight and bias bytes.
-        pub fn host_inputs(&self) -> Result<(Vec<u8>, Vec<u8>, Vec<u8>)> {
-            Ok((
-                self.stream.clone_dtoh(&self.x)?,
-                self.stream.clone_dtoh(&self.w)?,
-                self.stream.clone_dtoh(&self.bias)?,
-            ))
-        }
-
         /// Host copy of the listed bf16 output rows (`n` columns each), concatenated.
         pub fn host_out_rows(&self, rows: &[usize], n: usize) -> Result<Vec<u8>> {
             self.stream.synchronize()?;

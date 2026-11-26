@@ -367,12 +367,6 @@ impl TextExecutor {
         self.fused_mtp_prologue = on;
     }
 
-    /// Enables the wide fused draft head for 65..=128 sampled rows (disabled by default, where
-    /// those rows materialise bf16 logits instead).
-    pub fn set_wide_draft_head(&mut self, on: bool) {
-        self.gemm.set_wide_argmax_enabled(on);
-    }
-
     /// Whether the draft head of `rows` sampled rows can be reduced to token indices on the
     /// device without materialising logits ([`Self::mtp_forward_resident`] with `tokens`).
     pub fn fused_draft_head(&self, rows: usize) -> bool {

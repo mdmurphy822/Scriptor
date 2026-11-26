@@ -55,12 +55,6 @@ impl Device {
         Ok(())
     }
 
-    /// Returns unused pooled memory to the operating system, keeping at least `keep_bytes`
-    /// reserved. Pending stream-ordered frees must have completed.
-    pub fn trim_pool(&self, keep_bytes: usize) -> Result<()> {
-        trim_context_pool(&self.ctx, keep_bytes)
-    }
-
     /// The release threshold currently set on the device's stream-ordered allocator.
     pub fn pool_release_threshold(&self) -> Result<usize> {
         self.pool_attribute(
@@ -162,10 +156,5 @@ impl DeviceArena {
     /// The backing device buffer.
     pub fn buffer(&self) -> &CudaSlice<u8> {
         &self.buffer
-    }
-
-    /// The backing device buffer, mutably.
-    pub fn buffer_mut(&mut self) -> &mut CudaSlice<u8> {
-        &mut self.buffer
     }
 }

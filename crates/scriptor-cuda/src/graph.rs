@@ -62,16 +62,6 @@ impl KernelArgs {
     }
 }
 
-/// New launch configuration and arguments for one captured kernel node.
-/// Fields left `None` keep the captured value.
-#[derive(Debug, Default, Clone)]
-pub struct KernelNodeUpdate {
-    pub grid: Option<(u32, u32, u32)>,
-    pub block: Option<(u32, u32, u32)>,
-    pub shared_mem_bytes: Option<u32>,
-    pub args: Option<KernelArgs>,
-}
-
 /// An instantiated graph captured from a stream, with its kernel nodes
 /// indexed in capture-graph order.
 pub struct CapturedGraph {
@@ -101,11 +91,6 @@ impl CapturedGraph {
         })
     }
 
-    /// Number of kernel nodes in the captured graph.
-    pub fn kernel_node_count(&self) -> usize {
-        self.kernel_nodes.len()
-    }
-
     /// The execution-context handle each kernel node was captured with, in node order; nodes
     /// captured from a green-context stream report that context.
     pub fn kernel_node_contexts(&self) -> Result<Vec<usize>> {
@@ -127,60 +112,6 @@ impl CapturedGraph {
     /// Replays the graph on the stream it was captured from.
     pub fn launch(&self) -> Result<()> {
         Ok(self.graph.launch()?)
-    }
-
-    /// Rewrites the launch parameters of kernel node `index` in the
-    /// instantiated graph via `cuGraphExecKernelNodeSetParams`.
-    ///
-    /// # Safety
-    /// `update.args`, when present, must match the kernel's parameter list in
-    /// count, size and layout; no replay may be in flight.
-    pub unsafe fn update_kernel_node(
-        &self,
-        index: usize,
-        mut update: KernelNodeUpdate,
-    ) -> Result<()> {
-        let node = *self.kernel_nodes.get(index).ok_or_else(|| {
-            CudaError::Graph(format!(
-                "kernel node {index} out of range ({} nodes)",
-                self.kernel_nodes.len()
-            ))
-        })?;
-        let mut params = MaybeUninit::<sys::CUDA_KERNEL_NODE_PARAMS>::zeroed();
-        // SAFETY: `node` belongs to the owned graph; params is writable.
-        check(
-            unsafe { sys::cuGraphKernelNodeGetParams_v2(node, params.as_mut_ptr()) },
-            "cuGraphKernelNodeGetParams",
-        )?;
-        // SAFETY: initialised by the successful call above.
-        let mut params = unsafe { params.assume_init() };
-        if let Some((x, y, z)) = update.grid {
-            params.gridDimX = x;
-            params.gridDimY = y;
-            params.gridDimZ = z;
-        }
-        if let Some((x, y, z)) = update.block {
-            params.blockDimX = x;
-            params.blockDimY = y;
-            params.blockDimZ = z;
-        }
-        if let Some(bytes) = update.shared_mem_bytes {
-            params.sharedMemBytes = bytes;
-        }
-        let mut pointers;
-        if let Some(args) = update.args.as_mut() {
-            pointers = args.pointers();
-            params.kernelParams = pointers.as_mut_ptr();
-            params.extra = std::ptr::null_mut();
-        }
-        // SAFETY: params describes a kernel node of this exec graph; the
-        // driver copies the argument values during the call.
-        check(
-            unsafe {
-                sys::cuGraphExecKernelNodeSetParams_v2(self.graph.cu_graph_exec(), node, &params)
-            },
-            "cuGraphExecKernelNodeSetParams",
-        )
     }
 }
 

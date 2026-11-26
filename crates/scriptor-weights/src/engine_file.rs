@@ -27,7 +27,6 @@ use std::path::{Path, PathBuf};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-use crate::dtype::Dtype;
 use crate::error::WeightsError;
 
 pub const MAGIC: [u8; 8] = *b"GLMOCRE\0";
@@ -114,12 +113,6 @@ pub struct EntryMeta {
     pub offset: u64,
     /// Stored byte length.
     pub len: u64,
-}
-
-impl EntryMeta {
-    pub fn stored_dtype(&self) -> Result<Dtype, WeightsError> {
-        Dtype::parse(&self.dtype)
-    }
 }
 
 /// The decoded header of an engine file.
