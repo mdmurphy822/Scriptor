@@ -2,9 +2,9 @@
 //! tokens with their top-2 logit margins.
 
 use std::error::Error;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
-use clap::Args;
+pub use crate::args::bench_args::ReferenceDumpArgs;
 use scriptor_chat::{
     ChatMessage, ChatTemplate, Content, ContentPart, ImageGrid, PromptBuilder, RenderOptions,
     Tokenizer,
@@ -14,29 +14,6 @@ use scriptor_kernels::reference::sampling::Penalties;
 use scriptor_model::ReferenceModel;
 use scriptor_spec::{ImageProcessorConfig, ModelSpec};
 use serde_json::json;
-
-/// Arguments of `bench reference-dump`.
-#[derive(Debug, Args)]
-pub struct ReferenceDumpArgs {
-    /// Checkpoint snapshot directory (config, tokenizer, chat template and safetensors).
-    #[arg(long)]
-    pub model_dir: PathBuf,
-    /// Image file (JPEG, PNG or WebP).
-    #[arg(long)]
-    pub image: PathBuf,
-    /// Text part of the user message.
-    #[arg(long)]
-    pub prompt: String,
-    /// Maximum number of tokens to generate.
-    #[arg(long, default_value_t = 32)]
-    pub steps: usize,
-    /// Repetition penalty applied before the greedy pick.
-    #[arg(long, default_value_t = 1.1)]
-    pub repetition_penalty: f32,
-    /// Write the JSON dump here instead of standard output.
-    #[arg(long)]
-    pub output: Option<PathBuf>,
-}
 
 fn read(dir: &Path, name: &str) -> Result<String, Box<dyn Error>> {
     std::fs::read_to_string(dir.join(name)).map_err(|e| format!("reading {name}: {e}").into())

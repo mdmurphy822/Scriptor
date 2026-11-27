@@ -6,6 +6,7 @@ pub const SPLIT_ALIGN: usize = 64;
 /// Partials written per split by one decode launch.
 pub const PARTIALS_PER_SPLIT: usize = 1;
 /// Partials per split written by the baseline kernel (one per warp).
+#[cfg(feature = "cuda")]
 const BASELINE_PARTIALS_PER_SPLIT: usize = 4;
 /// Head dimension of the paged decode kernel.
 pub const DECODE_HEAD_DIM: usize = 128;

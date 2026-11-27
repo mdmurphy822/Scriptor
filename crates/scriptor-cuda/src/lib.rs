@@ -30,7 +30,7 @@ pub use sm_split::{
 #[cfg(feature = "cuda")]
 pub use device::{Device, DeviceArena};
 #[cfg(feature = "cuda")]
-pub use graph::{CapturedGraph, KernelArgs};
+pub use graph::CapturedGraph;
 #[cfg(feature = "cuda")]
 pub use green::{DeviceSms, GreenPartitions};
 #[cfg(feature = "cuda")]

@@ -5,64 +5,8 @@
 //! runners need the `cuda` feature.
 
 use std::fmt::Write as _;
-use std::path::PathBuf;
 
-use clap::{Args, ValueEnum};
-
-/// Operand format selected on the command line.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
-pub enum DtypeArg {
-    Bf16,
-    Fp8,
-}
-
-/// Arguments of `bench gemm`.
-#[derive(Args, Debug)]
-pub struct GemmBenchArgs {
-    /// Operand format to measure.
-    #[arg(long, value_enum, default_value = "bf16")]
-    pub dtype: DtypeArg,
-    /// Writes the JSON report to this file.
-    #[arg(long)]
-    pub report: Option<PathBuf>,
-    /// Reads the tuning table from this directory (never written by `bench`).
-    #[arg(long)]
-    pub cache_dir: Option<PathBuf>,
-    /// Untimed launches per shape.
-    #[arg(long, default_value_t = 50)]
-    pub warmup: usize,
-    /// Timed launches per shape; the median is reported.
-    #[arg(long, default_value_t = 200)]
-    pub iters: usize,
-    /// Activation row counts to measure (comma separated).
-    #[arg(long, value_delimiter = ',', default_values_t = scriptor_kernels::heuristics::PROBE_M)]
-    pub m: Vec<usize>,
-}
-
-/// Arguments of `tune`.
-#[derive(Args, Debug)]
-pub struct TuneArgs {
-    /// Directory the tuning table is written to (the only writer of the cache).
-    #[arg(long)]
-    pub cache_dir: PathBuf,
-    /// Also tune the fp8 path.
-    #[arg(long)]
-    pub fp8: bool,
-    /// Timed launches per candidate.
-    #[arg(long, default_value_t = 20)]
-    pub iters: usize,
-    /// Activation row counts to tune (comma separated).
-    #[arg(long, value_delimiter = ',', default_values_t = scriptor_kernels::heuristics::PROBE_M)]
-    pub m: Vec<usize>,
-    /// Tunes exactly the shapes of this dispatched-shape inventory instead of the model shapes
-    /// at `--m`, ordered by total measured GPU time, then by executed dispatch count, so an
-    /// untimed inventory (`serve --gemm-shape-log`) is ordered by how often each shape ran.
-    #[arg(long)]
-    pub shapes: Option<PathBuf>,
-    /// Most shapes taken from `--shapes`.
-    #[arg(long, default_value_t = 64)]
-    pub max_shapes: usize,
-}
+pub use crate::args::bench_args::{DtypeArg, GemmBenchArgs, TuneArgs};
 
 /// One measured (or skipped) GEMM shape.
 #[derive(Debug, Clone, PartialEq)]
@@ -230,7 +174,6 @@ pub fn sustained_tflops(rows: &[GemmRow], min_m: usize) -> Option<f64> {
         .max_by(f64::total_cmp)
 }
 
-#[cfg(feature = "cuda")]
 pub use device::{run_bench, run_tune};
 
 #[cfg(feature = "cuda")]

@@ -17,7 +17,6 @@ workspace = true
 default = ["cuda"]
 cuda = [
     "dep:cudarc",
-    "dep:scriptor-cuda",
     "scriptor-model/cuda",
     "scriptor-kernels/cuda",
     "scriptor-cuda/cuda",
@@ -34,7 +33,7 @@ scriptor-bench = { path = "../scriptor-bench" }
 scriptor-bridge = { path = "../scriptor-bridge" }
 scriptor-cache = { path = "../scriptor-cache" }
 scriptor-chat = { path = "../scriptor-chat" }
-scriptor-cuda = { path = "../scriptor-cuda", optional = true }
+scriptor-cuda = { path = "../scriptor-cuda" }
 scriptor-engine = { path = "../scriptor-engine" }
 scriptor-image = { path = "../scriptor-image" }
 scriptor-kernels = { path = "../scriptor-kernels" }

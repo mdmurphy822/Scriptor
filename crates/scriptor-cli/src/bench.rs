@@ -2,12 +2,10 @@
 //! equivalence, throughput ladder, instant mock seat, region-set generation, sustained GEMM
 //! throughput and the CPU reference dump.
 
-use std::net::SocketAddr;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
-use clap::{Args, Subcommand};
 use scriptor_bench::equivalence::compare;
-use scriptor_bench::ladder::{DEFAULT_LEVELS, run_ladder};
+use scriptor_bench::ladder::run_ladder;
 use scriptor_bench::mock_seat::{MockConfig, serve_forever};
 use scriptor_bench::openai_client::{Client, RetryPolicy};
 use scriptor_bench::regions::{
@@ -17,121 +15,11 @@ use scriptor_bench::regions::{
 use scriptor_bench::report;
 use scriptor_chat::Tokenizer;
 
-use crate::bench_gemm::{GemmBenchArgs, run_bench};
-use crate::reference_dump::{self, ReferenceDumpArgs};
-
-/// Equivalence and throughput subcommands of `bench`.
-#[derive(Subcommand, Debug)]
-pub enum BenchCommand {
-    /// Posts every (region, task) to two endpoints and compares replies token for token.
-    Compare(CompareArgs),
-    /// Measures throughput at rising concurrency with the bridge-shaped request mix.
-    Ladder(LadderArgs),
-    /// Answers the Semantik chat body instantly with canned text.
-    MockSeat(MockSeatArgs),
-    /// Writes a region set to a directory.
-    Regions(RegionsArgs),
-    /// Measures sustained GEMM throughput over the ViT and decoder shapes.
-    Gemm(GemmBenchArgs),
-    /// Runs the f32 CPU reference on a checkpoint and writes the greedy tokens with their top-2
-    /// logit margins.
-    ReferenceDump(ReferenceDumpArgs),
-}
-
-/// Arguments shared by the endpoint-driving subcommands.
-#[derive(Args, Debug)]
-pub struct EndpointArgs {
-    /// Directory holding `manifest.json` and the crop JPEGs.
-    #[arg(long)]
-    pub regions: PathBuf,
-    /// Served model name sent in the request body.
-    #[arg(long, default_value = "glm-ocr")]
-    pub model: String,
-    /// Bearer token sent to the endpoints, if any.
-    #[arg(long)]
-    pub bearer: Option<String>,
-    /// Retries on 429 and 5xx replies.
-    #[arg(long, default_value_t = 5)]
-    pub retries: usize,
-    /// Writes the Markdown report here.
-    #[arg(long)]
-    pub report_md: Option<PathBuf>,
-    /// Writes the JSON report here.
-    #[arg(long)]
-    pub report_json: Option<PathBuf>,
-}
-
-/// Arguments of `bench compare`.
-#[derive(Args, Debug)]
-pub struct CompareArgs {
-    #[command(flatten)]
-    pub common: EndpointArgs,
-    /// Reference endpoint (base URL or chat-completions URL).
-    #[arg(long)]
-    pub a: String,
-    /// Endpoint under test.
-    #[arg(long)]
-    pub b: String,
-    /// `tokenizer.json` used to compare replies token for token.
-    #[arg(long)]
-    pub tokenizer: PathBuf,
-    /// Tasks to post for every region instead of the manifest's (comma separated).
-    #[arg(long, value_delimiter = ',')]
-    pub tasks: Vec<String>,
-    /// Cases in flight at once.
-    #[arg(long, default_value_t = 8)]
-    pub workers: usize,
-    /// Request logprobs to report top-2 logit margins at the first divergence.
-    #[arg(long)]
-    pub logprobs: bool,
-}
-
-/// Arguments of `bench ladder`.
-#[derive(Args, Debug)]
-pub struct LadderArgs {
-    #[command(flatten)]
-    pub common: EndpointArgs,
-    /// Endpoint to load (base URL or chat-completions URL).
-    #[arg(long)]
-    pub url: String,
-    /// Concurrency levels (comma separated).
-    #[arg(long, value_delimiter = ',', default_values_t = DEFAULT_LEVELS)]
-    pub levels: Vec<usize>,
-    /// Requests sent per concurrent slot at each level.
-    #[arg(long, default_value_t = 4)]
-    pub rounds: usize,
-}
-
-/// Arguments of `bench mock-seat`.
-#[derive(Args, Debug)]
-pub struct MockSeatArgs {
-    /// Address to listen on.
-    #[arg(long)]
-    pub bind: SocketAddr,
-    /// File whose text every reply carries.
-    #[arg(long)]
-    pub reply_file: PathBuf,
-    /// Served model name listed by `/v1/models`.
-    #[arg(long, default_value = "glm-ocr")]
-    pub model: String,
-    /// `prompt_tokens` every reply reports.
-    #[arg(long, default_value_t = 247)]
-    pub prompt_tokens: u64,
-}
-
-/// Arguments of `bench regions`.
-#[derive(Args, Debug)]
-pub struct RegionsArgs {
-    /// Directory the region set is written to.
-    #[arg(long)]
-    pub out: PathBuf,
-    /// Font file overriding the bundled font.
-    #[arg(long)]
-    pub font: Option<PathBuf>,
-    /// Manifest overriding the bundled synthetic manifest.
-    #[arg(long)]
-    pub manifest: Option<PathBuf>,
-}
+pub use crate::args::bench_args::{
+    BenchCommand, CompareArgs, EndpointArgs, LadderArgs, MockSeatArgs, RegionsArgs,
+};
+use crate::bench_gemm::run_bench;
+use crate::reference_dump;
 
 fn parse_tasks(names: &[String]) -> Result<Option<Vec<Task>>, String> {
     if names.is_empty() {

@@ -1,5 +1,6 @@
 //! The `scriptor` command-line interface.
 
+#[cfg_attr(not(feature = "cuda"), allow(dead_code))]
 mod args;
 mod bench;
 mod bench_gemm;
@@ -26,6 +27,7 @@ mod reference_dump;
 mod seat_engine;
 #[cfg(feature = "cuda")]
 mod serve;
+#[cfg_attr(not(feature = "cuda"), allow(dead_code))]
 mod setup;
 #[cfg(feature = "cuda")]
 mod slot_book;

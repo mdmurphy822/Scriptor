@@ -6,6 +6,9 @@ use clap::{Args, Parser, Subcommand};
 use scriptor_bridge::cli::OcrBridgeArgs;
 use scriptor_bridge::serve::DEFAULT_PORT as DEFAULT_BRIDGE_PORT;
 
+#[path = "bench_args.rs"]
+pub mod bench_args;
+
 /// The `scriptor` command line.
 #[derive(Parser, Debug)]
 #[command(
@@ -34,10 +37,10 @@ pub enum Command {
     /// Run benchmarks and equivalence checks.
     Bench {
         #[command(subcommand)]
-        command: crate::bench::BenchCommand,
+        command: bench_args::BenchCommand,
     },
     /// Tune GEMM kernels for the detected device.
-    Tune(crate::bench_gemm::TuneArgs),
+    Tune(bench_args::TuneArgs),
 }
 
 /// Arguments of `serve`. Every path is explicit; none has a default, and nothing is written to

@@ -1,6 +1,5 @@
 //! CUDA graph capture and replay with updatable kernel-node parameters.
 
-use std::ffi::c_void;
 use std::mem::MaybeUninit;
 use std::sync::Arc;
 
@@ -14,51 +13,6 @@ fn check(code: sys::CUresult, what: &str) -> Result<()> {
         Ok(())
     } else {
         Err(CudaError::Graph(format!("{what}: {code:?}")))
-    }
-}
-
-/// Packed by-value kernel arguments, in launch order.
-#[derive(Debug, Default, Clone)]
-pub struct KernelArgs {
-    values: Vec<Vec<u8>>,
-}
-
-impl KernelArgs {
-    /// Creates an empty argument list.
-    pub fn new() -> Self {
-        Self::default()
-    }
-
-    /// Appends one by-value argument (scalar or device pointer).
-    pub fn push<T: Copy>(mut self, value: T) -> Self {
-        let mut bytes = vec![0u8; std::mem::size_of::<T>()];
-        // SAFETY: `bytes` has exactly size_of::<T>() bytes and T is Copy.
-        unsafe {
-            std::ptr::copy_nonoverlapping(
-                (&value as *const T).cast::<u8>(),
-                bytes.as_mut_ptr(),
-                bytes.len(),
-            );
-        }
-        self.values.push(bytes);
-        self
-    }
-
-    /// Number of arguments.
-    pub fn len(&self) -> usize {
-        self.values.len()
-    }
-
-    /// Whether the list has no arguments.
-    pub fn is_empty(&self) -> bool {
-        self.values.is_empty()
-    }
-
-    fn pointers(&mut self) -> Vec<*mut c_void> {
-        self.values
-            .iter_mut()
-            .map(|v| v.as_mut_ptr().cast::<c_void>())
-            .collect()
     }
 }
 

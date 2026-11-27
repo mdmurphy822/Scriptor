@@ -2,7 +2,7 @@
 //! row parameter layout, token bitsets, the seeded uniform generator, launch
 //! geometry, and the CPU reference of the temperature / top-k / top-p choice.
 
-use crate::reference::sampling::{GreedyPick, Penalties, apply_penalties, argmax_with_margin};
+use crate::reference::sampling::{GreedyPick, Penalties, argmax_with_margin};
 
 /// Embedded fatbin stem of the sampling kernels.
 pub const KERNEL_FILE: &str = "penalty_argmax";
@@ -862,6 +862,7 @@ mod device {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::reference::sampling::apply_penalties;
 
     const SMS: usize = 48;
     const TPS: usize = 1536;
